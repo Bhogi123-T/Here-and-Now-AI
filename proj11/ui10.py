@@ -74,9 +74,10 @@ with gr.Blocks(css=css, title=brand_info["organizationName"]) as rag_bot:
             description="",
             type="messages",
             examples=[
-                ["WELCOME TO BM AI"],["I can help u about COVID-19 inf"]
+                ["WELCOME TO BM AI"],["can u give inf about COVID-19"]
             ]
         )
 
 if __name__ == "__main__":
     rag_bot.launch(share=True)
+
