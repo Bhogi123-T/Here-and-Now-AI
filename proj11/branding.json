@@ -1,0 +1,21 @@
+{
+    "brand": {
+        "organizationName": "BM AI",
+        "website": "https://bhogiai.com",
+        "email": "hello@bhogiai.com",
+        "mobile": "+91 95555 11111",
+        "slogan": "Smarter Solutions for a Brighter Tomorrow",
+        "colors": {
+            "primary": "#1BA098",
+            "secondary": "#FFB350"
+        },
+        "chatbot": {
+            "avatar": "https://yourdomain.com/logos/bhogiai-avatar.png",
+            "face": "https://yourdomain.com/logos/bhogiai-chat-face.png"
+        },
+        "socialMedia": {
+            "linkedin": "https://linkedin.com/company/bhogiai",
+            "github": "https://github.com/bhogiai"
+        }
+    }
+}
