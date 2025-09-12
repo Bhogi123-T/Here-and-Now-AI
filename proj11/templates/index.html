@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXA AI - Intelligent Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="{{ url_for('static', filename='nexo.jpg') }}" alt="NEXA AI" class="brand-logo">
+                <div class="brand-info">
+                    <h1 class="brand-name">NEXA AI</h1>
+                    <div class="brand-tagline">Intelligent Assistant</div>
+                </div>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="status-pill">
+                    <div id="status-indicator" class="status-content">
+                        <i class="fas fa-brain"></i>
+                        <span class="status-text">General Mode</span>
+                    </div>
+                </div>
+                
+                <button id="clear-btn" class="nav-btn" title="Clear Chat">
+                    <i class="fas fa-broom"></i>
+                </button>
+                
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Chat Interface -->
+    <main class="chat-main">
+        <div class="chat-wrapper">
+            <!-- Messages Container -->
+            <div id="messages-container" class="messages-area">
+                <!-- Welcome Screen -->
+                <div class="welcome-screen" id="welcome-screen">
+                    <div class="welcome-content">
+                        <div class="welcome-logo">
+                            <img src="{{ url_for('static', filename='nexo.jpg') }}" alt="NEXA AI">
+                        </div>
+                        <h1 class="welcome-title">Welcome to NEXA AI</h1>
+                        <p class="welcome-subtitle">Your intelligent assistant powered by advanced AI</p>
+                        
+                        <div class="feature-cards">
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-file-pdf"></i>
+                                </div>
+                                <h3>Document Analysis</h3>
+                                <p>Upload PDFs for detailed analysis and Q&A</p>
+                            </div>
+                            
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <h3>General Knowledge</h3>
+                                <p>Ask anything from my vast knowledge base</p>
+                            </div>
+                            
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="fas fa-microphone"></i>
+                                </div>
+                                <h3>Voice Input</h3>
+                                <p>Speak naturally for hands-free interaction</p>
+                            </div>
+                        </div>
+                        
+                        <div class="quick-actions">
+                            <button class="quick-btn" onclick="showSampleQuestion('What is artificial intelligence?')">
+                                <i class="fas fa-lightbulb"></i>
+                                Sample Question
+                            </button>
+                            <button class="quick-btn" onclick="document.getElementById('pdf-upload').click()">
+                                <i class="fas fa-upload"></i>
+                                Upload PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Messages -->
+                <div class="messages-list" id="messages-list"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Input Section -->
+    <section class="input-section">
+        <div class="input-wrapper">
+            <!-- Upload Status -->
+            <div id="upload-status" class="upload-notification"></div>
+            
+            <!-- Input Container -->
+            <div class="input-container">
+                <!-- Hidden File Input -->
+                <input type="file" id="pdf-upload" accept=".pdf" style="display: none;">
+                
+                <!-- Input Actions -->
+                <div class="input-actions-left">
+                    <button id="upload-btn" class="action-btn upload-btn" title="Upload PDF">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                </div>
+                
+                <!-- Text Input Area -->
+                <div class="input-field-wrapper">
+                    <textarea 
+                        id="user-input" 
+                        placeholder="Ask me anything..."
+                        rows="1"
+                        maxlength="2000"
+                    ></textarea>
+                    <div class="input-footer">
+                        <span class="char-counter">
+                            <span id="char-count">0</span>/2000
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Input Actions Right -->
+                <div class="input-actions-right">
+                    <button id="voice-btn" class="action-btn voice-btn" title="Voice Input">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    
+                    <button id="send-btn" class="action-btn send-btn" title="Send Message" disabled>
+                        <i class="fas fa-arrow-up"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+        </div>
+        <p class="loading-text">Processing your request...</p>
+    </div>
+
+    <!-- Voice Recording Modal -->
+    <div id="voice-modal" class="voice-modal">
+        <div class="voice-content">
+            <div class="voice-animation">
+                <div class="voice-wave"></div>
+                <div class="voice-wave"></div>
+                <div class="voice-wave"></div>
+                <div class="voice-wave"></div>
+                <div class="voice-wave"></div>
+            </div>
+            <h3 class="voice-title">Listening...</h3>
+            <p class="voice-subtitle">Speak now, I'm listening</p>
+            <button id="stop-voice-btn" class="stop-voice-btn">
+                <i class="fas fa-stop"></i>
+                Stop Recording
+            </button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
